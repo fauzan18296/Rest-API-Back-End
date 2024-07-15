@@ -1,14 +1,19 @@
- const getAllUser = (req,res) =>{
-  const data = {
-    id: '1',
-    name:'Ahmad Fauzan',
-    email: 'fauzan18296@gmail.com',
-    addres: 'Surabaya'
-  }
+ import { getAllUsers } from "../models/users.js";
+ 
+ const getAllUser = async (req,res) =>{
+  try{
+  const [data] = await getAllUsers();
   res.json({
     message: 'GET all users is success!',
     data: data
   })
+}catch(error) {
+  console.error(`fetching users is failed: ${error.message}`)
+  res.status(500).json({
+    message: `server is error!`,
+    error: error
+  })
+}
 } 
 
  const createNewUser = (req,res) => {

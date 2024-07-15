@@ -1,5 +1,6 @@
 import express from 'express';
 import {getAllUser, createNewUser, updateUser, deleteUser} from '../controller/users.js'
+
 const route = express.Router();
 
 // Create  - Method POST
