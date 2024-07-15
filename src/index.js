@@ -1,10 +1,9 @@
 import express from 'express';
 import userRoutes from './routes/users.js';
 import middlewareLogRequest from './middleware/logs.js';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
 const app = express();
-dotenv.config()
 
 app.use(middlewareLogRequest);
 app.use(express.json());
