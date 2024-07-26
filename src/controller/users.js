@@ -1,4 +1,4 @@
- import { getAllUsers, createNewUsers } from "../models/users.js";
+ import { getAllUsers, createNewUsers, updateUsers, deleteUsers } from "../models/users.js";
  
  const getAllUser = async (req,res) =>{
   try{
@@ -18,12 +18,12 @@
 
  const createNewUser = async (req,res) => {
   console.log(req.body);
-  const {body} = req;
+  const bodyRequest = req.body;
   try {
-    await createNewUsers(body);
+    await createNewUsers(bodyRequest);
     res.json({
       message: 'CREATE new users is success!',
-      data: req.body
+      data: bodyRequest
     })
   } catch (error) {
     console.error(`Request body is Failed: ${error.message}`)
@@ -35,25 +35,44 @@
   }
 }
 
-const updateUser = (req,res) => {
+const updateUser = async (req,res) => {
   const {id} = req.params;
-  console.log('id:', id);
-  res.json({
-    message: 'UPDATE user is success!',
-    data: req.body
-  })
+  const {body} = req;
+  try{
+  await updateUsers(body,id);
+    res.json({
+      message: 'UPDATE user is success!',
+      data: {
+        id: id,
+        ...body
+      }
+    })
+  }catch(error){
+    console.error(`Update request is failed: 
+      ${error.message}`)
+      res.status(500).json({
+        message: 'Update request is rejected!',
+        errorUpdate: error
+      })
+      console.log('id:', id);
+  }
+  
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   const {id} = req.params;
-  res.json({
-    message: 'DELETE user is success!',
-    data: {
-      id: id,
-      name: 'Ahmad Fauzan',
-      email: 'fauzan18296@gmail.com',
-      address: 'Surabaya',
-    }
-  })
+  try{
+   await deleteUsers(id);
+    res.json({
+      message: 'DELETE user is success!',
+      data:null
+    })
+  }catch(error) {
+    console.error(`Cannot delete the data: ${error.message}`)
+    res.status(500).json({
+      message: 'Delete is rejected!',
+      errorDelete:error
+    })
+  }
 }
 export {getAllUser, createNewUser, updateUser, deleteUser}

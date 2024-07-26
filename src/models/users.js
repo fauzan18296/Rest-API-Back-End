@@ -5,8 +5,18 @@ const getAllUsers = () => {
  return dbpool.execute(sqlQuery);
 }
 
-const createNewUsers = () =>{
+const createNewUsers = (body) =>{
   const sqlQuery = `INSERT INTO users(name, email, address)VALUES('${body.name}', '${body.email}', '${body.address}')`;
   return dbpool.execute(sqlQuery);
 }
-export {getAllUsers, createNewUsers};
+
+const updateUsers = (body,id) => {
+  const sqlQuery = `UPDATE users SET name='${body.name}', email='${body.email}', address='${body.address}' WHERE id=${id}`;
+ return dbpool.execute(sqlQuery);
+}
+
+const deleteUsers = (id) => {
+  const sqlQuery = `DELETE FROM users WHERE id='${id}'`;
+  return dbpool.execute(sqlQuery);
+}
+export {getAllUsers, createNewUsers, updateUsers, deleteUsers};
