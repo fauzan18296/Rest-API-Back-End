@@ -19,9 +19,15 @@
  const createNewUser = async (req,res) => {
   console.log(req.body);
   const bodyRequest = req.body;
+  if(!bodyRequest.email || !bodyRequest.name || !bodyRequest.address) {
+    return res.status(400).json({
+      message: "Anda memasukkan data yang salah!",
+      data: null
+    })
+  }
   try {
     await createNewUsers(bodyRequest);
-    res.json({
+    res.status(201).json({
       message: 'CREATE new users is success!',
       data: bodyRequest
     })
